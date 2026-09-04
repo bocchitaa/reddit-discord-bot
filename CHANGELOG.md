@@ -2,7 +2,7 @@
 
 A running log of changes to this bot, in plain English, newest first.
 
-## 2026-07-14 — Image-only posts, cleaner embeds
+## — Image-only posts, cleaner embeds
 
 - **Skip text-only posts.** Posts with no image/media attached are no
   longer forwarded to Discord at all — only posts with an actual picture
