@@ -13,7 +13,7 @@ A running log of changes to this bot, in plain English, newest first.
 - **Strip hashtags from titles.** Any `#word` patterns in a post's title
   (like `#Genshin`) are now removed before posting.
 
-## 2026-07-14 — Initial GitHub Actions version
+## — Initial GitHub Actions version
 
 - Rebuilt the bot to run on a schedule via GitHub Actions (every 15
   minutes) instead of needing a PC left running.
