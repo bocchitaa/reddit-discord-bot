@@ -112,17 +112,19 @@ def extract_summary_parts(summary_html: str):
     return image_url, text
 
 
-def send_to_discord(title, link, subreddit, author, image_url=None, description=""):
+def strip_hashtags(text: str) -> str:
+    text = re.sub(r"#\w+", "", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def send_to_discord(title, link, subreddit, author, image_url):
     embed = {
-        "title": title[:256],
+        "title": strip_hashtags(title)[:256],
         "url": link,
         "color": 0xFF4500,
         "footer": {"text": f"r/{subreddit} • posted by {author}"},
+        "image": {"url": image_url},
     }
-    if description:
-        embed["description"] = description[:300]
-    if image_url:
-        embed["image"] = {"url": image_url}
 
     resp = requests.post(DISCORD_WEBHOOK_URL, json={"embeds": [embed]}, timeout=15)
     if resp.status_code >= 300:
@@ -160,12 +162,16 @@ def main():
         if not matches_keywords(title, summary, config["keywords"]):
             continue
 
+        image_url, _description = extract_summary_parts(summary)
+        if not image_url:
+            # Text-only post (no attached image/media) -- skip it.
+            continue
+
         link = entry.get("link", "")
         author = entry.get("author", "unknown").replace("/u/", "")
         subreddit = subreddit_from_link(link)
-        image_url, description = extract_summary_parts(summary)
 
-        send_to_discord(title, link, subreddit, author, image_url, description)
+        send_to_discord(title, link, subreddit, author, image_url)
         print(f"Posted: {title} (r/{subreddit})")
         posted += 1
 
