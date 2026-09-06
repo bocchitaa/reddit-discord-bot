@@ -106,7 +106,7 @@ def extract_summary_parts(summary_html: str):
     image_url = None
     if direct_link and direct_link.lower().split("?")[0].endswith(IMAGE_EXTENSIONS):
         image_url = direct_link
-    elif thumb and thumb.startswith("http") and "thumbs.redditmedia.com" not in thumb:
+    elif thumb and thumb.startswith("http"):
         image_url = thumb
 
     return image_url, text
