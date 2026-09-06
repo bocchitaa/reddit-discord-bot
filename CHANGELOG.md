@@ -2,6 +2,15 @@
 
 A running log of changes to this bot, in plain English, newest first.
 
+
+##-
+Bug fix: posts with multiple images (Reddit galleries) were being wrongly treated as text-only posts and skipped.
+This was because the image-detection logic excluded thumbnails hosted on thumbs.redditmedia.com — meant to filter out generic placeholder icons,
+but that domain is also where Reddit hosts most real post thumbnails, including gallery covers.
+That exclusion has been removed.
+Known limitation: gallery posts will still only show their first/ cover image, not the full set — Reddit's RSS feed and our current setup only expose one image per post.
+
+
 ## — Image-only posts, cleaner embeds
 
 - **Skip text-only posts.** Posts with no image/media attached are no
